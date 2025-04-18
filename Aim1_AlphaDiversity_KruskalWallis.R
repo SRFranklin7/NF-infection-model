@@ -1,4 +1,6 @@
-##Kruskal-Wallis Test
+##Kruskal-Wallis Test to test for change in alpha diversity across 3 groups ##
+
+# Load in libraries
 library(readxl)
 library(FSA)
 library(ggplot2)
@@ -7,37 +9,26 @@ library(scales)
 library(ggbreak)
 library(ggpubr)
 
-
-df <- read_excel("Aim1_Baseline_AlphaDiversity.xlsx", sheet = "RInput")
+# Load in data #
 data <- read_excel("Aim1_Baseline_AlphaDiversity.xlsx", sheet = "Onset")
+
+# Adjust dataframe for statistics #
 variable <- as.factor(data$ThreeGroup)
 Metabolite <- data$observed_otus
 
-
+# Perform KW test #
 test <- kruskal.test(Metabolite ~ variable, data = data)$p.value
 print(test)
 
-
+# Dunn's Test for multiple comparisons, only perform when KW is significant #
 dunn <- dunnTest(Metabolite ~ variable,
                  data = data,
                  method = "bonferroni")
 print(dunn$res$P.unadj)
 print(dunn$res$Comparison)
 
-
-ggplot(df, aes(x=Taxa, y=Level)) +
-  geom_boxplot(aes(fill=Group)) +
-  geom_point(position = position_dodge(width=0.75), aes(group=Group))+
-  theme_bw()+
-  theme(text = element_text(size =15),
-        axis.title.x = element_blank())+
-  scale_fill_manual(values=c("darkred","darkgreen", "blue", "darkgrey"))+
-  annotate("text", x = c(1), y=8, label = c("KW p=0.05102"))+
-  ggtitle("Baseline")
-
-### MUTLIPLE TIME POINTS ###
+# Plot Figure #
 df <- read_excel("Aim1_Baseline_AlphaDiversity.xlsx", sheet = "RInput_multiplot")
-
 
 ggplot(data=df,aes(x=factor(Time), y=Level,  fill=Group)) +
   geom_boxplot() +
