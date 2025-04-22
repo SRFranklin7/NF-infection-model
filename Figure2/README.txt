@@ -1,1 +1,15 @@
+The files contained in this directory were used in the creation of Figure2. Below is detailed the formatting and information held within the input data for each of these files. 
 
+"Figure2B_FunctionalAnalysis.R": There were two parts of this analysis. The first was LinDA calculations. I used two datasheets for this, the first was the output for Picrust2 and the second was the metadata sheet. THe output from Picrust was a dataframe where the columns were samples and each row was the relative abundance of the pathways identified via Picrust2. The metadata sheet held two columns 1) Patient ID (identical to the sampleID's in the picrust2 output dataframe, and 2) Group identifier (InfectiousNF, NonInfectiousNF,and NoFever). For ease of my analysis (this could have been entirely coded, but i'm lame and didn't do that and felt that it would be faster to just do it manually), I created three different datasheets and metadata sheets, one for each of the 3 two-group comparisons. 
+
+For each of the three 2-group comparisons I then ran the code to perform LinDa and then saved the output as idk.csv (creative i know). I then ran this thru MetaCyc and compared my findings with the other 2-group comparisons and extracted just the top pathways within each comparison to create the heatmap. 
+
+This heatmap datatable consists of 5 columns where the rows are the top pathways for each of the three 2-group comparisons. The first column is the Ontology of the pathway, the second is the MetaCyc pathway name, the next three columns are a "Up/No Change/Down" listing that was determined based off of the "idk.csv" Linda results. God Bless and Godspeed. 
+
+"Aim1_Volcano.R": This  was also done in two steps. The first is to perform Mann-Whitney test and the second is to create the volcano plot. First, performing the Mann-Whitney test to get the significance values. This required an input file that was formatted in the wide format. The first column is the sampleIDs, the second column is the group information (InfectiousNF, NonInfectiousNF, and No Fever). The next columns are genus relative abundances. I was super lame and just copied and pasted the pvalues from the terminal into an excel sheet, you could totally have just saved the p-values to an object and then saved it to a csv file, but alas, I did not. 
+
+The second step, was to calculate the fold change. The input file for this was just the transposed version of the previously described datatable with the patientID column removed. One finicky thing that could've been coded better was the commands on lines 27 and 28. I just manually changed the values to correspond to the columns that were relevant for the group of interest for the 2-group comparison that i was working on at the moment. 
+
+"Aim1_MetaboliteHeatmap.R": This input file for this was in wide format. where the first column is the patient ID's, the next three columns were the group columns, where i had a column for each of the outcomes in a binary format detailing how each patient was included in the outcomes. The next columns were the abundances of the 10 metabolites for each patient. 
+
+ 
